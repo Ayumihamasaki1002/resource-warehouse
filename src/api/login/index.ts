@@ -5,7 +5,7 @@ interface type {
 }
 
 export async function userLogin(params: type) {
-  fetch('http://localhost:3001/auth/login', {
+  fetch('http://localhost:3000/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,9 +16,9 @@ export async function userLogin(params: type) {
     }),
   })
     .then((response) => response.json())
-    .then(() => {
-      //   console.log('Success:', data);
-      //   const userData = data;
+    .then((data) => {
+      const token = data.token;
+      localStorage.setItem('token', token);
     })
     .catch((error) => {
       console.error('Error:', error);
