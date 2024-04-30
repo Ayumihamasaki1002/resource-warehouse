@@ -1,0 +1,26 @@
+'use client';
+
+import React from 'react';
+
+import { Row, Col } from 'antd';
+
+import styles from './index.module.scss';
+import Register from './register';
+export default function loginPage() {
+  // 点击登录处理
+
+  return (
+    <>
+      <div id={styles.loginPage}>
+        <Row>
+          <Col span={5} offset={0}></Col>
+          <Col span={12} offset={7}>
+            <div id={styles.loginFormDiv}>
+              <Register />
+            </div>
+          </Col>
+        </Row>
+      </div>
+    </>
+  );
+}
