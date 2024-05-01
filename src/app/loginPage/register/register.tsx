@@ -2,6 +2,7 @@ import React from 'react';
 
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Col, message } from 'antd';
+import Link from 'next/link';
 
 import styles from './index.module.scss';
 
@@ -85,8 +86,8 @@ export default function Register() {
         <Row style={{ marginTop: '50px' }}>
           <Col span={9}>
             <Form.Item>
-              <Button htmlType="submit" className="register-form-button" style={{ width: '98%', height: '40px' }}>
-                登录
+              <Button className="register-form-button" style={{ width: '98%', height: '40px' }}>
+                <Link href={'/loginPage/login'}>登录</Link>
               </Button>
             </Form.Item>
           </Col>

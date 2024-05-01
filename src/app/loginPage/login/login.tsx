@@ -2,6 +2,7 @@ import React from 'react';
 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Row, Col } from 'antd';
+import Link from 'next/link';
 
 import styles from './index.module.scss';
 
@@ -43,8 +44,8 @@ export default function Login() {
       <Row style={{ marginTop: '50px' }}>
         <Col span={9}>
           <Form.Item>
-            <Button htmlType="submit" className="login-form-button" style={{ width: '98%', height: '40px' }}>
-              注册
+            <Button className="login-form-button" style={{ width: '98%', height: '40px' }}>
+              <Link href={'/loginPage/register'}>注册</Link>
             </Button>
           </Form.Item>
         </Col>
