@@ -44,7 +44,7 @@ export default function Login() {
         <Col span={9}>
           <Form.Item>
             <Button htmlType="submit" className="login-form-button" style={{ width: '98%', height: '40px' }}>
-              Regist
+              注册
             </Button>
           </Form.Item>
         </Col>
@@ -56,7 +56,7 @@ export default function Login() {
               className="login-form-button"
               style={{ width: '98%', height: '40px' }}
             >
-              Log in
+              登录
             </Button>
           </Form.Item>
         </Col>

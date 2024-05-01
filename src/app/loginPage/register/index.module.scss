@@ -1,11 +1,11 @@
-#loginPage{
+#registerPage{
     background: linear-gradient(to right, #58d1c9,#65a9f3,#7f9ef3,#ab7ae0,#f37fb7);
     width: 100%;
     height: 100vh;
     
 }
 
-#loginFormDiv{
+#registerFormDiv{
     width: 100%;
     display: flex;
     justify-content: flex-end;
@@ -13,9 +13,9 @@
     height: 100vh;
 
 
-    #loginForm{
+    #registerForm{
         width: 500px;
-        height: 400px;
+        height: 450px;
         background-color:#dfdfdf1c;
         margin-right: 5em;
         padding:2em;
@@ -23,7 +23,7 @@
         box-shadow: 0px 0px 10px 5px #6060607f;
         
         
-        #loginFormHeader{
+        #registerFormHeader{
             display: flex;
             justify-content: center;
             align-items: center;
@@ -33,13 +33,13 @@
             font-family: Georgia, serif;
         }
 
-        #loginFormBody{
+        #registerFormBody{
             display: flex;
             justify-content: center;
             align-items: center;
 
     
-        .loginCard{
+        .registerCard{
         //    padding-right: 300px; 
         }
 
