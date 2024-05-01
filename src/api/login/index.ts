@@ -17,6 +17,7 @@ export async function userLogin(params: type) {
   })
     .then((response) => response.json())
     .then((data) => {
+      localStorage.removeItem('token');
       const token = data.token;
       localStorage.setItem('token', token);
     })

@@ -6,22 +6,23 @@ import Link from 'next/link';
 
 import styles from './index.module.scss';
 
+import { userRegister } from '@/api/register';
+
 export default function Register() {
   type value = {
     username: string;
-    password1: string;
-    password2: string;
+    password: string;
   };
   const [messageApi, contextHolder] = message.useMessage();
   // 确认注册
   const onFinish = (value: value) => {
-    // console.log(value);
-    if (value.password1 !== value.password2) {
-      messageApi.open({
-        type: 'error',
-        content: '两次密码不一致',
-      });
-    }
+    // 发送请求
+
+    userRegister({ username: value.username, password: value.password });
+    messageApi.open({
+      type: 'success',
+      content: '注册成功',
+    });
   };
 
   return (
