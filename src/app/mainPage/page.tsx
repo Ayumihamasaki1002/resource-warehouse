@@ -1,5 +1,15 @@
 import React from 'react';
 
-export default function page() {
-  return <div>page</div>;
+import { Col, Row } from 'antd';
+export default function mainPage() {
+  return (
+    <>
+      <Row>
+        <Col span={8}>col</Col>
+        <Col span={8}>col</Col>
+
+        <Col span={8}>col</Col>
+      </Row>
+    </>
+  );
 }
