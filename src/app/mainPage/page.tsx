@@ -5,6 +5,7 @@ import { Col, Row } from 'antd';
 import HeadMenu from '@/components/HeadMenu';
 
 import LeftMenu from './components/LeftMenu';
+import RightMenu from './components/RightMenu';
 
 export default function mainPage() {
   return (
@@ -21,12 +22,9 @@ export default function mainPage() {
           lg={{ span: 12, offset: 0 }}
           style={{ backgroundColor: 'blue' }}
         ></Col>
-        <Col
-          xs={{ span: 0, offset: 0 }}
-          md={{ span: 0, offset: 0 }}
-          lg={{ span: 6, offset: 1 }}
-          style={{ backgroundColor: 'green' }}
-        ></Col>
+        <Col xs={{ span: 0, offset: 0 }} md={{ span: 0, offset: 0 }} lg={{ span: 6, offset: 1 }}>
+          <RightMenu />
+        </Col>
       </Row>
     </>
   );
