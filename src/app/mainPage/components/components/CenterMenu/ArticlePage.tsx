@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { Avatar, List, Skeleton, Switch, Space } from 'antd';
+import { Avatar, List, Skeleton, Space } from 'antd';
 
 import type Icon from '@ant-design/icons';
 
@@ -9,7 +9,7 @@ interface IconTextProps {
   icon: typeof Icon;
   text: React.ReactNode;
 }
-const listData = Array.from({ length: 3 }).map((_, i) => ({
+const listData = Array.from({ length: 4 }).map((_, i) => ({
   href: 'https://ant.design',
   title: `ant design part ${i + 1}`,
   avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed=${i}`,
@@ -26,16 +26,15 @@ const IconText: React.FC<IconTextProps> = ({ icon, text }) => (
 );
 
 export default function ArticlePage() {
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(false);
 
-  const onChange = (checked: boolean) => {
-    setLoading(!checked);
-  };
+  // const onChange = (checked: boolean) => {
+  //   setLoading(!checked);
+  // };
 
   return (
     <>
-      <Space style={{ display: 'flex', flexDirection: 'column' }}>
-        <Switch checked={!loading} onChange={onChange} style={{ marginBottom: 16 }} />
+      <Space style={{ alignItems: 'start', marginTop: '1vh' }}>
         <List
           itemLayout="vertical"
           size="large"
@@ -63,7 +62,7 @@ export default function ArticlePage() {
                 )
               }
             >
-              <Skeleton loading={loading} active avatar style={{ marginBottom: 32 }}>
+              <Skeleton loading={loading} active avatar style={{ width: '46vw' }} paragraph={{ rows: 4 }}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.avatar} />}
                   title={<a href={item.href}>{item.title}</a>}
