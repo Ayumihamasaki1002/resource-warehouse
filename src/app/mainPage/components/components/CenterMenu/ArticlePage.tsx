@@ -34,7 +34,7 @@ export default function ArticlePage() {
 
   return (
     <>
-      <Space style={{ alignItems: 'start', marginTop: '1vh' }}>
+      <Space style={{ alignItems: 'start', marginTop: '1vh', width: '100%' }}>
         <List
           itemLayout="vertical"
           size="large"
@@ -62,6 +62,7 @@ export default function ArticlePage() {
                 )
               }
             >
+              {/* 此处宽度不兼容响应式，原因：父容器无法找到 */}
               <Skeleton loading={loading} active avatar style={{ width: '46vw' }} paragraph={{ rows: 4 }}>
                 <List.Item.Meta
                   avatar={<Avatar src={item.avatar} />}
