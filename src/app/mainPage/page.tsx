@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Col, Row } from 'antd';
 
-import HeadMenu from '@/components/HeadMenu';
-
 import CenterMenu from './components/CenterMenu';
 import LeftMenu from './components/LeftMenu';
 import RightMenu from './components/RightMenu';
+
+import HeadMenu from '@/app/mainPage/components/HeadMenu';
 
 export default function mainPage() {
   return (

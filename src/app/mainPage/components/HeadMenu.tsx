@@ -19,7 +19,7 @@ export default function HeadMenu() {
       <Col xs={{ span: 24, offset: 0 }} md={{ span: 17, offset: 1 }} lg={{ span: 12, offset: 1 }}>
         <SearchInput />
       </Col>
-      <Col xs={{ span: 0, offset: 0 }} md={{ span: 0, offset: 0 }} lg={{ span: 6, offset: 1 }}>
+      <Col xs={{ span: 0, offset: 0 }} md={{ span: 0, offset: 0 }} lg={{ span: 7, offset: 0 }}>
         <RightMenu />
       </Col>
     </Row>
