@@ -26,7 +26,7 @@ const IconText: React.FC<IconTextProps> = ({ icon, text }) => (
 );
 
 export default function ArticlePage() {
-  const [loading] = useState(false);
+  const [loading] = useState(true);
 
   // const onChange = (checked: boolean) => {
   //   setLoading(!checked);
