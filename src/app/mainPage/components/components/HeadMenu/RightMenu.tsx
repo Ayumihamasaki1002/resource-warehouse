@@ -9,7 +9,7 @@ export default function RightMenu() {
   return (
     <>
       <Space>
-        <Button />
+        <Button color="blue" />
         <Skeleton.Avatar active={true} size={'large'} />
       </Space>
     </>
