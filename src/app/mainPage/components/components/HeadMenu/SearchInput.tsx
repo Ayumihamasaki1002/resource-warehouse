@@ -11,12 +11,7 @@ export default function SearchInput() {
   };
   return (
     <>
-      <Search
-        placeholder="input search text"
-        onSearch={onSearch}
-        enterButton
-        style={{ width: '50%', marginLeft: '25%' }}
-      />
+      <Search placeholder="搜索~" onSearch={onSearch} enterButton style={{ width: '50%', marginLeft: '25%' }} />
     </>
   );
 }
