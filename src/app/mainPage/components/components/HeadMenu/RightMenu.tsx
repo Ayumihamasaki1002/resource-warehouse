@@ -9,7 +9,11 @@ export default function RightMenu() {
   return (
     <>
       <Space>
-        <Button color="blue" />
+        <Button text={'文档'} />
+        <Button text={'仓库'} />
+        <Button text={'社区'} />
+        <Button text={'笔记'} />
+
         <Skeleton.Avatar active={true} size={'large'} />
       </Space>
     </>
