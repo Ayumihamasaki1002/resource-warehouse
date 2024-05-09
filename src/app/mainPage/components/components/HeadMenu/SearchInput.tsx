@@ -10,6 +10,9 @@ const { Search } = Input;
 
 // 历史记录存储
 const list = new historyList();
+if (window.localStorage.getItem('history') !== null) {
+  list.replace(JSON.parse(window.localStorage.getItem('history') || '[]'));
+}
 let historyArray: [string] = ['default'];
 
 export default function SearchInput() {
@@ -17,31 +20,48 @@ export default function SearchInput() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    // 从localStorage中获取历史记录
-    const history = localStorage.getItem('history');
-    // 将history转换为数组
-    historyArray = JSON.parse(history || '[]');
+    getHistory();
   });
 
+  // 从localStorage中获取历史记录
+  const getHistory = function () {
+    const history = localStorage.getItem('history');
+    if (history === null) return false;
+    // 将history转换为数组
+    historyArray = JSON.parse(history || '[]');
+    return true;
+  };
+  // 防抖处理
+  let _value: string;
+  let timer: NodeJS.Timeout;
   // 点击搜索按钮
   const onSearch: SearchProps['onSearch'] = (value) => {
-    list.add(value);
-    // 将历史记录存入localStorage
-    localStorage.setItem('history', JSON.stringify(list.get()));
-    // 当token不同时要清除
+    if (_value !== null) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      _value = value;
+      list.add(_value);
+      // 将历史记录存入localStorage
+      localStorage.setItem('history', JSON.stringify(list.get()));
+      // 当token不同时要清除 还没实现
+    }, 5000);
   };
   // 搜索框内容改变时
   const onChange: SearchProps['onChange'] = (e) => {
+    getHistory();
     if (e.target.value == '') setShow(true);
     else setShow(false);
   };
 
   // 搜索框获得焦点时
   const onFocus: React.EventHandler<SyntheticEvent<HTMLInputElement>> = () => {
-    setShow(true);
+    const flag = getHistory() as React.SetStateAction<boolean>;
+    setShow(flag);
   };
   // 搜索框失去焦点时
   const onBlur: React.EventHandler<SyntheticEvent<HTMLInputElement>> = () => {
+    getHistory();
     setShow(false);
   };
   return show && historyArray[0] !== 'default' ? (
@@ -56,7 +76,7 @@ export default function SearchInput() {
         onChange={onChange}
       />
       <List
-        style={{ width: '61%', borderRadius: 0, backgroundColor: 'white', zIndex: 200 }}
+        style={{ width: '70%', borderRadius: 0, backgroundColor: 'white', zIndex: 200 }}
         size="small"
         bordered
         dataSource={historyArray}
