@@ -26,7 +26,7 @@ export default function SearchInput() {
   // 点击搜索按钮
   const onSearch: SearchProps['onSearch'] = (value) => {
     list.add(value);
-    //将历史记录存入localStorage
+    // 将历史记录存入localStorage
     localStorage.setItem('history', JSON.stringify(list.get()));
     // 当token不同时要清除
   };
