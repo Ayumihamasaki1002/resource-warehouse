@@ -1,9 +1,9 @@
-export class historyList {
+export default class historyList {
   _list: [string] = ['default'];
   _listLength: number = 10;
   // 添加历史记录
   add(item: string) {
-    this._list.push(item);
+    this._list.unshift(item);
   }
   // 删除历史记录
   delete(index: number) {
