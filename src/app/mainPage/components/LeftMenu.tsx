@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CalendarOutlined, MailOutlined } from '@ant-design/icons';
 import { Menu, Skeleton, Spin } from 'antd';
@@ -46,19 +46,20 @@ export default function LeftMenu() {
     setSpinning(true);
     setTimeout(() => {
       setSpinning(false);
-    }, 3000);
+    }, 1000);
   };
-  // const [loading, setLoading] = useState(true);
+  const [loading] = useState(true);
 
   // const onChange = (checked: boolean) => {
   //   setLoading(!checked);
   // };
 
   return (
-    <>
-      <Menu style={leftMenuStyle} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} items={items} />
-      <Skeleton active title={false} paragraph={{ rows: 5 }} style={SkeletonStyle} />
+    <div>
+      <Skeleton active title={false} paragraph={{ rows: 5 }} style={SkeletonStyle} loading={loading}>
+        <Menu style={leftMenuStyle} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} items={items} />
+      </Skeleton>
       <Spin spinning={spinning} fullscreen />
-    </>
+    </div>
   );
 }
