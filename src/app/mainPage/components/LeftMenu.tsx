@@ -1,8 +1,8 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { CalendarOutlined, MailOutlined } from '@ant-design/icons';
-import { Menu, Skeleton } from 'antd';
+import { Menu, Skeleton, Spin } from 'antd';
 
 import type { GetProp, MenuProps } from 'antd';
 
@@ -33,14 +33,32 @@ export default function LeftMenu() {
     height: '94vh',
   };
 
-  const checked = useState(false);
-  if (checked) {
-    return (
-      <>
-        <Menu style={leftMenuStyle} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} items={items} />
-      </>
-    );
-  } else {
-    return <Skeleton active />;
-  }
+  const SkeletonStyle: React.CSSProperties = {
+    marginTop: '5vh',
+    width: '80%',
+    marginLeft: '10%',
+  };
+  const [spinning, setSpinning] = React.useState<boolean>(false);
+  useEffect(() => {
+    showLoader();
+  });
+  const showLoader = () => {
+    setSpinning(true);
+    setTimeout(() => {
+      setSpinning(false);
+    }, 3000);
+  };
+  // const [loading, setLoading] = useState(true);
+
+  // const onChange = (checked: boolean) => {
+  //   setLoading(!checked);
+  // };
+
+  return (
+    <>
+      <Menu style={leftMenuStyle} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} items={items} />
+      <Skeleton active title={false} paragraph={{ rows: 5 }} style={SkeletonStyle} />
+      <Spin spinning={spinning} fullscreen />
+    </>
+  );
 }
