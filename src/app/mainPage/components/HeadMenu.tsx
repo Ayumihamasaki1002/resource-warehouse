@@ -8,6 +8,7 @@ import SearchInput from './components/HeadMenu/SearchInput';
 const headMenuStyle: React.CSSProperties = {
   height: '6vh',
   borderBottom: '0.1em solid #e9e9e9',
+  backgroundColor: 'white',
 };
 
 export default function HeadMenu() {
