@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Col, Row } from 'antd';
 
-import RightMenu from './components/HeadMenu/RightMenu';
-import SearchInput from './components/HeadMenu/SearchInput';
+import RightMenu from './RightMenu';
+import SearchInput from './SearchInput';
 
 const headMenuStyle: React.CSSProperties = {
   height: '6vh',
