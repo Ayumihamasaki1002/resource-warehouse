@@ -13,6 +13,7 @@ export default function CenterMenu() {
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04)',
     borderRadius: '2px',
     padding: '3%',
+    marginTop: '2%',
   };
   return (
     <>
