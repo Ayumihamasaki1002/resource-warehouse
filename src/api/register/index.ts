@@ -1,4 +1,3 @@
-'use client';
 // 用户注册接口
 interface type {
   username: string;
