@@ -46,7 +46,7 @@ export default function LeftMenu() {
     setSpinning(true);
     setTimeout(() => {
       setSpinning(false);
-    }, 1000);
+    }, 0);
   };
   const [loading] = useState(true);
 

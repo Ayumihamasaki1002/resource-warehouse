@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 
 import { Skeleton, Space } from 'antd';
 
+import ImageLoading from '@/components/ImageLoading';
+
 export default function UserCard() {
   const [active] = useState(true);
   const topCardStyles: React.CSSProperties = {
@@ -33,12 +35,28 @@ export default function UserCard() {
   return (
     <>
       <Space style={topCardStyles}>
-        <Skeleton.Avatar active={active} size={80} />
+        <ImageLoading
+          size={80}
+          src="https://img-soure.oss-cn-shenzhen.aliyuncs.com/oss-demo.jpg?Expires=1715814540&OSSAccessKeyId=TMP.3KgTvpa7uE3wX2HkM4nBQyfqBx3Urp1qr6A97n3Rd4wri7TZXrudM436iewsr3UMzMw9kyqWzVM7gAG9RrGyWyaoQWUD4H&Signature=EYf90%2Bi0BPx0kbV5Zk6Yhy139Ok%3D"
+          url="/userInfo"
+        />
 
         <Space style={otherAvatarStyles}>
-          <Skeleton.Avatar active={active} size={30} />
-          <Skeleton.Avatar active={active} size={30} />
-          <Skeleton.Avatar active={active} size={30} />
+          <ImageLoading
+            size={30}
+            src="https://img-soure.oss-cn-shenzhen.aliyuncs.com/github.png?Expires=1715815369&OSSAccessKeyId=TMP.3KgTvpa7uE3wX2HkM4nBQyfqBx3Urp1qr6A97n3Rd4wri7TZXrudM436iewsr3UMzMw9kyqWzVM7gAG9RrGyWyaoQWUD4H&Signature=YjlaY9qGlCiW4aKLJTvBJ1Riwlg%3D"
+            url="https://github.com/Ayumihamasaki1002"
+          />
+          <ImageLoading
+            size={30}
+            src="https://img-soure.oss-cn-shenzhen.aliyuncs.com/juejin.png?Expires=1715815327&OSSAccessKeyId=TMP.3KgTvpa7uE3wX2HkM4nBQyfqBx3Urp1qr6A97n3Rd4wri7TZXrudM436iewsr3UMzMw9kyqWzVM7gAG9RrGyWyaoQWUD4H&Signature=WqcYDCfI7bz1ROujptfbh0sF8xU%3D"
+            url="https://juejin.cn/user/3444120689837150"
+          />
+          <ImageLoading
+            size={30}
+            src="https://img-soure.oss-cn-shenzhen.aliyuncs.com/csdn.png?Expires=1715815306&OSSAccessKeyId=TMP.3KgTvpa7uE3wX2HkM4nBQyfqBx3Urp1qr6A97n3Rd4wri7TZXrudM436iewsr3UMzMw9kyqWzVM7gAG9RrGyWyaoQWUD4H&Signature=XUR2MM4vHnoTY%2BcUb%2FaxBK5R4hY%3D"
+            url="https://blog.csdn.net/m0_62211690?spm=1000.2115.3001.5343"
+          />
         </Space>
         <Space style={buttonStyles}>
           <Skeleton.Button active={active} size={'default'} />

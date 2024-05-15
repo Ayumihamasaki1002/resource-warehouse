@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 import Button from '@/components/Button/Button';
 
-import ImageLoading from './ImageLoading';
+import ImageLoading from '../ImageLoading';
 
 export default function RightMenu() {
   const router = useRouter();
@@ -31,8 +31,9 @@ export default function RightMenu() {
         <Button text={'笔记'} />
         <div onClick={handleClick}>
           <ImageLoading
+            size="large"
             src={
-              'https://img-soure.oss-cn-shenzhen.aliyuncs.com/oss-demo.jpg?Expires=1715731743&OSSAccessKeyId=TMP.3KfFbgBAiwxEhU8HuR47qqopPGM4vHMdJNrWLSpEN9a6FMceBJWwcCkPj7h9FgduXpcvFRW8Vr5kJ3bxAocad7iHpmKzEQ&Signature=yoDKeEXgS1wkslW4O9sk4fz9%2BGc%3D'
+              'https://img-soure.oss-cn-shenzhen.aliyuncs.com/oss-demo.jpg?Expires=1715814540&OSSAccessKeyId=TMP.3KgTvpa7uE3wX2HkM4nBQyfqBx3Urp1qr6A97n3Rd4wri7TZXrudM436iewsr3UMzMw9kyqWzVM7gAG9RrGyWyaoQWUD4H&Signature=EYf90%2Bi0BPx0kbV5Zk6Yhy139Ok%3D'
             }
           />
         </div>
