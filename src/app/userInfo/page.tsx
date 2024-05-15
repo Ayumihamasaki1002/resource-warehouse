@@ -13,7 +13,7 @@ export default function page() {
   return (
     <>
       <HeadMenu />
-      {/* 主页栅格布局 */}
+      {/* 资料修改界面栅格布局 */}
       <Row style={{ height: '94vh' }}>
         <Col xs={{ span: 0 }} md={{ span: 5 }} lg={{ span: 5, offset: 1 }}>
           <LeftMenu />
