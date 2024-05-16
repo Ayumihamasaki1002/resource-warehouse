@@ -1,52 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 
-import { AutoComplete, Button, Cascader, Form, Input, Select } from 'antd';
-
-import type { CascaderProps } from 'antd';
+import { AutoComplete, Button, Form, Input, Select } from 'antd';
 
 const { Option } = Select;
-
-interface DataNodeType {
-  value: string;
-  label: string;
-  children?: DataNodeType[];
-}
-
-const residences: CascaderProps<DataNodeType>['options'] = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
 
 const formItemLayout = {
   labelCol: {
@@ -74,10 +31,8 @@ const tailFormItemLayout = {
 
 export default function UserForm() {
   const [form] = Form.useForm();
-
-  const onFinish = () => {
-    // console.log('Received values of form: ', values);
-  };
+  // 提交表单
+  const onFinish = () => {};
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -98,9 +53,35 @@ export default function UserForm() {
     }
   };
 
+  const oncsdnChange = (value: string) => {
+    if (!value) {
+      setAutoCompleteResult([]);
+    } else {
+      setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
+    }
+  };
+
+  const onjuejinChange = (value: string) => {
+    if (!value) {
+      setAutoCompleteResult([]);
+    } else {
+      setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
+    }
+  };
+
   const websiteOptions = autoCompleteResult.map((website) => ({
     label: website,
     value: website,
+  }));
+
+  const csdnOptions = autoCompleteResult.map((csdn) => ({
+    label: csdn,
+    value: csdn,
+  }));
+
+  const juejinOptions = autoCompleteResult.map((juejin) => ({
+    label: juejin,
+    value: juejin,
   }));
 
   return (
@@ -110,14 +91,11 @@ export default function UserForm() {
       name="register"
       onFinish={onFinish}
       initialValues={{ residence: ['zhejiang', 'hangzhou', 'xihu'], prefix: '86' }}
-      style={{ maxWidth: 600, maxHeight: '80%' }}
+      style={{ maxWidth: 1000 }}
       scrollToFirstError
+      size={'large'}
     >
-      <Form.Item
-        name="Nickname"
-        label="昵称"
-        rules={[{ required: true, message: '请输入你的昵称!', whitespace: true }]}
-      >
+      <Form.Item name="Nickname" label="昵称">
         <Input />
       </Form.Item>
       <Form.Item
@@ -128,46 +106,46 @@ export default function UserForm() {
             type: 'email',
             message: '邮箱的格式不对！',
           },
-          {
-            required: true,
-            message: '请输入你的邮箱',
-          },
         ]}
       >
         <Input />
       </Form.Item>
-      <Form.Item name="gender" label="性别" rules={[{ required: true, message: 'Please select gender!' }]}>
-        <Select placeholder="select your gender">
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-          <Option value="other">Other</Option>
+      <Form.Item name="gender" label="性别">
+        <Select placeholder="请选择你的性别">
+          <Option value="male">男</Option>
+          <Option value="female">女</Option>
+          <Option value="other">其他</Option>
         </Select>
       </Form.Item>
 
-      <Form.Item
-        name="residence"
-        label="地址"
-        rules={[{ type: 'array', required: true, message: 'Please select your habitual residence!' }]}
-      >
-        <Cascader options={residences} />
-      </Form.Item>
-
-      <Form.Item name="phone" label="电话" rules={[{ required: true, message: 'Please input your phone number!' }]}>
+      <Form.Item name="phone" label="电话">
         <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
       </Form.Item>
 
-      <Form.Item name="website" label="github" rules={[{ required: true, message: 'Please input website!' }]}>
-        <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
+      <Form.Item name="website" label="github">
+        <AutoComplete options={websiteOptions} onChange={onWebsiteChange}>
           <Input />
         </AutoComplete>
       </Form.Item>
 
-      <Form.Item name="intro" label="简介" rules={[{ required: true, message: '请输入你的简介' }]}>
+      <Form.Item name="csdn" label="csdn">
+        <AutoComplete options={csdnOptions} onChange={oncsdnChange}>
+          <Input />
+        </AutoComplete>
+      </Form.Item>
+
+      <Form.Item name="juejin" label="掘金">
+        <AutoComplete options={juejinOptions} onChange={onjuejinChange}>
+          <Input />
+        </AutoComplete>
+      </Form.Item>
+
+      <Form.Item name="intro" label="简介">
         <Input.TextArea showCount maxLength={50} />
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" style={{ marginTop: '30%', width: '100%' }}>
           保存
         </Button>
       </Form.Item>

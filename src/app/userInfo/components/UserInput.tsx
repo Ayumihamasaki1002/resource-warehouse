@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 
-import { Upload } from 'antd';
+import { Typography, Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
 
 import UserForm from './components/UserForm';
@@ -43,6 +43,9 @@ export default function UserInput() {
 
   return (
     <div style={inputStyles}>
+      <Typography.Title level={2} style={{ marginLeft: '5%', color: '#1668DC', marginBottom: '10%' }}>
+        个人信息
+      </Typography.Title>
       <div style={{ marginTop: '5%', display: 'flex', justifyContent: 'space-evenly', flexDirection: 'row' }}>
         <UserForm />
         <ImgCrop rotationSlider>
