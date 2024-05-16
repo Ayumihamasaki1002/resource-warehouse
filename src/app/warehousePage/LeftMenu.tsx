@@ -1,14 +1,20 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CalendarOutlined, MailOutlined } from '@ant-design/icons';
 import { Menu, Skeleton } from 'antd';
+
+import { getHouses } from '@/api/warehouse';
 
 import type { GetProp, MenuProps } from 'antd';
 
 type MenuItem = GetProp<MenuProps, 'items'>[number];
 
 export default function LeftMenu() {
+  useEffect(() => {
+    getHouses('afa89a8f-79bb-410d-8980-3ff6e4bb1ab7');
+  }, []);
+
   function getItem(
     label: React.ReactNode,
     key?: React.Key | null,
@@ -39,7 +45,7 @@ export default function LeftMenu() {
     marginLeft: '10%',
   };
 
-  const [loading] = useState(true);
+  const [loading] = useState(false);
 
   // const onChange = (checked: boolean) => {
   //   setLoading(!checked);

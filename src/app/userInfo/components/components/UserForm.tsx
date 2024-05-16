@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 
 import { AutoComplete, Button, Form, Input, Select } from 'antd';
 
+import { updateUserInfo } from '@/api/user';
+
 const { Option } = Select;
 
 const formItemLayout = {
@@ -32,11 +34,14 @@ const tailFormItemLayout = {
 export default function UserForm() {
   const [form] = Form.useForm();
   // 提交表单
-  const onFinish = () => {};
+  const onFinish = (value: any) => {
+    value.id = 'afa89a8f-79bb-410d-8980-3ff6e4bb1ab7';
+    updateUserInfo(value);
+  };
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
+      <Select style={{ width: 90 }}>
         <Option value="86">+86</Option>
         <Option value="87">+87</Option>
       </Select>

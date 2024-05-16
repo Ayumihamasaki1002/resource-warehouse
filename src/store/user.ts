@@ -9,7 +9,7 @@ interface UserInfo {
 interface UserState {
   userInfo: UserInfo;
   token: string;
-  updateUserInfo: (parmas: UserInfo) => void;
+  updateUserInfo: (params: UserInfo) => void;
   updateAge: (params: number) => void;
   updateToken: (params: string) => void;
 }
