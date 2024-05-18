@@ -6,6 +6,9 @@ import ImgCrop from 'antd-img-crop';
 
 import UserForm from './components/UserForm';
 
+import { updateUserInfo } from '@/api/user';
+import { client } from '@/config/oss';
+
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
@@ -41,6 +44,15 @@ export default function UserInput() {
     imgWindow?.document.write(image.outerHTML);
   };
 
+  // 上传文件处理
+  const onUpload = async (options: any) => {
+    const { file } = options;
+    const id = localStorage.getItem('id');
+    const fileName = `user-avatar/${id}.${file.name.split('.')[1]}`;
+    await client.put(fileName, file);
+    await updateUserInfo({ avatar: fileName }); // 更新用户头像信息
+  };
+
   return (
     <div style={inputStyles}>
       <Typography.Title level={2} style={{ marginLeft: '5%', color: '#1668DC', marginBottom: '10%' }}>
@@ -50,11 +62,11 @@ export default function UserInput() {
         <UserForm />
         <ImgCrop rotationSlider>
           <Upload
-            action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
             listType="picture-circle"
             fileList={fileList}
             onChange={onChange}
             onPreview={onPreview}
+            customRequest={onUpload}
           >
             {fileList.length < 1 && '更换头像'}
           </Upload>

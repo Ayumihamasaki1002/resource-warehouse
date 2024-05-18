@@ -9,8 +9,11 @@ interface type {
   id?: string;
 }
 
+// 更新用户信息
 export async function updateUserInfo(params: type) {
-  fetch(`http://localhost:3000/user/${params.id}`, {
+  // 发送请求到后端更新用户信息
+  const id = localStorage.getItem('id');
+  fetch(`http://localhost:3000/user/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -30,4 +33,16 @@ export async function updateUserInfo(params: type) {
     .catch((error) => {
       console.error('Error:', error);
     });
+}
+
+// 获取用户信息
+
+export async function getUserInfo(token: string) {
+  return fetch(`http://localhost:3000/user`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }

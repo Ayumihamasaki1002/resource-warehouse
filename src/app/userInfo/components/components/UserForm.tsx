@@ -35,7 +35,6 @@ export default function UserForm() {
   const [form] = Form.useForm();
   // 提交表单
   const onFinish = (value: any) => {
-    value.id = 'afa89a8f-79bb-410d-8980-3ff6e4bb1ab7';
     updateUserInfo(value);
   };
 

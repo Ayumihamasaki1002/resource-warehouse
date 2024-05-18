@@ -1,8 +1,9 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Col, Row } from 'antd';
 
+import { getId } from './handleSaved/saveId';
 import RightMenu from './RightMenu';
 import SearchInput from './SearchInput';
 
@@ -13,6 +14,11 @@ const headMenuStyle: React.CSSProperties = {
 };
 
 export default function HeadMenu() {
+  // 获取用户ID
+  useEffect(() => {
+    getId();
+  }, []);
+
   return (
     <div style={{ position: 'sticky', top: '1vh', zIndex: '100', height: '6vh' }}>
       <Row style={headMenuStyle}>
