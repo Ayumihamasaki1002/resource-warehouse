@@ -13,10 +13,11 @@ let historyArray: [string] = ['default'];
 export default function SearchInput() {
   // 控制搜索提示显示
   const [show, setShow] = useState(false);
-  // 历史记录存储
+
   const list = new historyList();
 
   useEffect(() => {
+    // 历史记录存储
     if (localStorage.getItem('history') !== null) {
       list.replace(JSON.parse(localStorage.getItem('history') || '[]'));
     }
@@ -45,7 +46,7 @@ export default function SearchInput() {
       // 将历史记录存入localStorage
       localStorage.setItem('history', JSON.stringify(list.get()));
       // 当token不同时要清除 还没实现
-    }, 5000);
+    }, 3000);
   };
   // 搜索框内容改变时
   const onChange: SearchProps['onChange'] = (e) => {

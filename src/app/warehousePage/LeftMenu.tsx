@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
-import { CalendarOutlined, MailOutlined } from '@ant-design/icons';
+import { FolderOutlined } from '@ant-design/icons';
 import { Menu, Skeleton } from 'antd';
 
 import { getHouses } from '@/api/warehouse';
@@ -11,10 +11,7 @@ import type { GetProp, MenuProps } from 'antd';
 type MenuItem = GetProp<MenuProps, 'items'>[number];
 
 export default function LeftMenu() {
-  useEffect(() => {
-    getHouses('afa89a8f-79bb-410d-8980-3ff6e4bb1ab7');
-  }, []);
-
+  const [items, setItems] = useState<MenuItem[]>([]);
   function getItem(
     label: React.ReactNode,
     key?: React.Key | null,
@@ -28,15 +25,28 @@ export default function LeftMenu() {
       label,
     } as MenuItem;
   }
+  useEffect(() => {
+    getHouses('afa89a8f-79bb-410d-8980-3ff6e4bb1ab7')
+      .then((res) => res.json())
+      .then((data) => {
+        const newItems: MenuItem[] = []; // 创建一个新的数组来存储新的items
+        let newFiles: MenuItem[] = [];
+        data.warehouses.forEach((warehouse: { housename: string; id: string; files: any }) => {
+          warehouse.files.forEach((file: { name: string; id: string }) => {
+            newFiles.push(getItem(file?.name, file?.id));
+          });
+          newItems.push(getItem(warehouse.housename, warehouse.id, <FolderOutlined />, newFiles));
+          newFiles = []; // 清空新的files数组
 
-  const items: MenuItem[] = [
-    getItem('Navigation One', '1', <MailOutlined />),
-    getItem('Navigation Two', '2', <CalendarOutlined />),
-  ];
+          setItems(newItems);
+        });
+      });
+  }, []);
 
   const leftMenuStyle: React.CSSProperties = {
     width: '95%',
     height: '94vh',
+    marginTop: '2vh',
   };
 
   const SkeletonStyle: React.CSSProperties = {
@@ -54,7 +64,13 @@ export default function LeftMenu() {
   return (
     <>
       <Skeleton active title={false} paragraph={{ rows: 5 }} style={SkeletonStyle} loading={loading}>
-        <Menu style={leftMenuStyle} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} items={items} />
+        <Menu
+          mode="inline"
+          style={leftMenuStyle}
+          defaultSelectedKeys={['1']}
+          defaultOpenKeys={['sub1']}
+          items={items}
+        />
       </Skeleton>
     </>
   );
