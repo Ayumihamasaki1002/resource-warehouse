@@ -8,18 +8,18 @@ import historyList from './handleSaved/history';
 import type { SearchProps } from 'antd/es/input/Search';
 const { Search } = Input;
 
-// 历史记录存储
-const list = new historyList();
-if (window.localStorage.getItem('history') !== null) {
-  list.replace(JSON.parse(window.localStorage.getItem('history') || '[]'));
-}
 let historyArray: [string] = ['default'];
 
 export default function SearchInput() {
   // 控制搜索提示显示
   const [show, setShow] = useState(false);
+  // 历史记录存储
+  const list = new historyList();
 
   useEffect(() => {
+    if (localStorage.getItem('history') !== null) {
+      list.replace(JSON.parse(localStorage.getItem('history') || '[]'));
+    }
     getHistory();
   });
 
