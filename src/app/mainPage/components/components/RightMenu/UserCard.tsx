@@ -11,10 +11,12 @@ export default function UserCard() {
   const [githubCard, setgithubCard] = useState<string>('');
   const [juejinCard, setjuejinCard] = useState<string>('');
   const [csdnCard, setcsdnCard] = useState<string>('');
+  const [userName, setuserName] = useState<string>('');
   useEffect(() => {
-    getImg('/oss-demo.jpg').then((res) => {
-      setTopCard(res);
-    });
+    if (localStorage.getItem('avatar') !== null)
+      getImg(localStorage.getItem('avatar') as string).then((res) => {
+        setTopCard(res);
+      });
     getImg('/github.png').then((res) => {
       setgithubCard(res);
     });
@@ -24,7 +26,8 @@ export default function UserCard() {
     getImg('/csdn.png').then((res) => {
       setcsdnCard(res);
     });
-  });
+    if (localStorage.getItem('username') !== null) setuserName(localStorage.getItem('username') as string);
+  }, []);
   const [active] = useState(true);
   const topCardStyles: React.CSSProperties = {
     display: 'flex',
@@ -45,16 +48,23 @@ export default function UserCard() {
     justifyContent: 'space-around',
   };
   const buttonStyles: React.CSSProperties = {
-    marginTop: '15%',
+    marginTop: '10%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '20vh',
   };
+  const userNameStyles: React.CSSProperties = {
+    fontSize: '22px',
+    fontWeight: '400',
+    marginTop: '1%',
+  };
   return (
     <>
       <Space style={topCardStyles}>
         <ImageLoading size={80} src={topCard} url="/userInfo" />
+
+        <Space style={userNameStyles}>{userName}</Space>
 
         <Space style={otherAvatarStyles}>
           <ImageLoading size={30} src={githubCard} url="https://github.com/Ayumihamasaki1002" />

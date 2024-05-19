@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 
-import { Typography, Upload } from 'antd';
+import { Typography, Upload, message } from 'antd';
 import ImgCrop from 'antd-img-crop';
 
 import UserForm from './components/UserForm';
@@ -52,6 +52,18 @@ export default function UserInput() {
     await client.put(fileName, file);
     await updateUserInfo({ avatar: fileName }); // 更新用户头像信息
   };
+  // 限制图片上传的格式和大小
+  const beforeUpload = (file: FileType) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  };
 
   return (
     <div style={inputStyles}>
@@ -67,6 +79,7 @@ export default function UserInput() {
             onChange={onChange}
             onPreview={onPreview}
             customRequest={onUpload}
+            beforeUpload={beforeUpload}
           >
             {fileList.length < 1 && '更换头像'}
           </Upload>
