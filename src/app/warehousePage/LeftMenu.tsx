@@ -11,6 +11,9 @@ import type { GetProp, MenuProps } from 'antd';
 type MenuItem = GetProp<MenuProps, 'items'>[number];
 
 export default function LeftMenu() {
+  // 获取用户名称
+  const [userName, setUserName] = useState<string>('');
+  // 渲染仓库菜单
   const [items, setItems] = useState<MenuItem[]>([]);
   function getItem(
     label: React.ReactNode,
@@ -41,12 +44,14 @@ export default function LeftMenu() {
           setItems(newItems);
         });
       });
+
+    // 获取用户名称
+    if (localStorage.getItem('username')) setUserName(localStorage.getItem('username') as string);
   }, []);
 
   const leftMenuStyle: React.CSSProperties = {
     width: '95%',
     height: '94vh',
-    marginTop: '2vh',
   };
 
   const SkeletonStyle: React.CSSProperties = {
@@ -56,14 +61,21 @@ export default function LeftMenu() {
   };
 
   const [loading] = useState(false);
-
-  // const onChange = (checked: boolean) => {
-  //   setLoading(!checked);
-  // };
-
   return (
     <>
       <Skeleton active title={false} paragraph={{ rows: 5 }} style={SkeletonStyle} loading={loading}>
+        <h1
+          style={{
+            textAlign: 'left',
+            fontSize: '25px',
+            fontWeight: 'bold',
+            marginLeft: '6%',
+            marginTop: '6%',
+            color: '#388BFF',
+          }}
+        >
+          {userName}的仓库
+        </h1>
         <Menu
           mode="inline"
           style={leftMenuStyle}
