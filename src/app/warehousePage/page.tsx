@@ -6,8 +6,8 @@ import { Col, Row, Spin } from 'antd';
 
 import HeadMenu from '@/components/HeadMenu/HeadMenu';
 
-import CenterMenu from './CenterMenu';
 import LeftMenu from './LeftMenu';
+import RanderPage from './RanderPage';
 
 export default function MainPage() {
   const [spinning, setSpinning] = useState<boolean>(false);
@@ -30,7 +30,7 @@ export default function MainPage() {
           <LeftMenu />
         </Col>
         <Col xs={{ span: 24, offset: 0 }} md={{ span: 18, offset: 1 }} lg={{ span: 18, offset: 0 }}>
-          <CenterMenu />
+          <RanderPage />
         </Col>
         <Col xs={{ span: 0, offset: 0 }} md={{ span: 0, offset: 1 }} lg={{ offset: 1 }}></Col>
       </Row>
