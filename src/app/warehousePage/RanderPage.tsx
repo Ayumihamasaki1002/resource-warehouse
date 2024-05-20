@@ -9,10 +9,10 @@ import useWarehouseStore from '@/store/warehouse';
 
 export default function RanderPage() {
   const { warehouseInfo } = useWarehouseStore();
-  const [model, setModel] = useState<number>(1);
+  const [model, setModel] = useState<number>(3);
   useEffect(() => {
     if (warehouseInfo.flag !== undefined) setModel(warehouseInfo.flag);
-    else setModel(1);
+    else setModel(3);
   }, [warehouseInfo.flag]);
   const centerStyles: React.CSSProperties = {
     width: '100%',

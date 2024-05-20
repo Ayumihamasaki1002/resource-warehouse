@@ -1,8 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
-import { FolderOutlined } from '@ant-design/icons';
-import { Menu, Skeleton } from 'antd';
+import { FolderOutlined, EditFilled } from '@ant-design/icons';
+import { Menu, Skeleton, Tooltip } from 'antd';
 
 import { getHouses } from '@/api/warehouse';
 import useWarehouseStore from '@/store/warehouse';
@@ -13,11 +13,13 @@ type MenuItem = GetProp<MenuProps, 'items'>[number];
 
 export default function LeftMenu() {
   // 使用zustand更改渲染的页面
-  const { updateWarehouseInfo } = useWarehouseStore();
+  const { updateWarehouseInfo, warehouseInfo, updateFacePage, updateWarehouseInfoSingle } = useWarehouseStore();
   // 获取用户名称
   const [userName, setUserName] = useState<string>('');
   // 渲染仓库菜单
   const [items, setItems] = useState<MenuItem[]>([]);
+  // 菜单是否可选
+  const [selectedKeys, setSelectedKeys] = useState<string[]>(['facePage']);
   function getItem(
     label: React.ReactNode,
     key?: React.Key | null,
@@ -33,9 +35,10 @@ export default function LeftMenu() {
   }
   useEffect(() => {
     if (localStorage.getItem('id'))
-      getHouses(localStorage.getItem('id') as string)
+      getHouses(localStorage.getItem('id') as string) // 请求仓库列表
         .then((res) => res.json())
         .then((data) => {
+          updateFacePage(data.warehouseFacePage); // 更新仓库首页
           const newItems: MenuItem[] = []; // 创建一个新的数组来存储新的items
           let newFiles: MenuItem[] = [];
           data.warehouses.forEach((warehouse: { housename: string; id: string; files: any }) => {
@@ -44,18 +47,28 @@ export default function LeftMenu() {
             });
             newItems.push(getItem(warehouse.housename, warehouse.id, <FolderOutlined />, newFiles));
             newFiles = []; // 清空新的files数组
-
-            setItems(newItems);
           });
+          newItems.unshift(getItem('首页', 'facePage'));
+          setItems(newItems);
         });
 
     // 获取用户名称
     if (localStorage.getItem('username')) setUserName(localStorage.getItem('username') as string);
-  }, []);
+  }, [warehouseInfo, updateFacePage]);
 
-  // 菜单点击事件
+  // 菜单点击事件  -fix- 这里想做的是点击菜单后更改文件夹的信息
   const handleClick = (e: any) => {
-    updateWarehouseInfo({ warehouseId: e.keyPath[1], fileId: e.key, flag: 3 });
+    setSelectedKeys([e.key]);
+
+    updateWarehouseInfo({ warehouseId: e.keyPath[1], fileId: e.key, flag: 3, fileName: 'default' });
+  };
+  // 收起菜单
+  const [openKeys, setOpenKeys] = useState([]);
+  // 跳转到仓库设置页面
+  const toWarehouseSetting = () => {
+    updateWarehouseInfoSingle(1);
+    setSelectedKeys([]);
+    setOpenKeys([]);
   };
 
   const leftMenuStyle: React.CSSProperties = {
@@ -73,24 +86,33 @@ export default function LeftMenu() {
   return (
     <>
       <Skeleton active title={false} paragraph={{ rows: 5 }} style={SkeletonStyle} loading={loading}>
-        <h1
+        <div
           style={{
             textAlign: 'left',
-            fontSize: '25px',
-            fontWeight: 'bold',
+            fontSize: '22px',
+            fontWeight: '600',
             marginLeft: '6%',
             marginTop: '2%',
+            paddingRight: '10%',
             color: '#388BFF',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}
         >
-          {userName}的仓库
-        </h1>
+          <p>{userName}的仓库</p>
+          <Tooltip title="单击修改仓库" color="blue">
+            <EditFilled style={{ cursor: 'pointer' }} onClick={toWarehouseSetting} />
+          </Tooltip>
+        </div>
         <Menu
           mode="inline"
           style={leftMenuStyle}
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
           items={items}
+          selectedKeys={selectedKeys}
+          openKeys={openKeys}
           onClick={(e) => {
             handleClick(e);
           }}

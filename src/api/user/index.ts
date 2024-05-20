@@ -7,6 +7,7 @@ interface type {
   email?: string;
   avatar?: string;
   id?: string;
+  warehouseFacePage?: string;
 }
 
 // 更新用户信息
@@ -26,6 +27,7 @@ export async function updateUserInfo(params: type) {
       github: params.github,
       email: params.email,
       avatar: params.avatar,
+      warehouseFacePage: params.warehouseFacePage,
     }),
   })
     .then((response) => response.json())

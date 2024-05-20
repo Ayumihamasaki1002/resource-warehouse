@@ -1,6 +1,6 @@
 export default class historyList {
   _list: [string] = ['default'];
-  _listLength: number = 5;
+  _listLength: number = 5; //控制缓存的数量
   // 添加历史记录
   add(item: string) {
     this._list.unshift(item);
