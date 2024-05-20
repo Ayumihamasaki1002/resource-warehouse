@@ -20,7 +20,7 @@ export default function HeadMenu() {
   }, []);
 
   return (
-    <div style={{ position: 'sticky', top: '1vh', zIndex: '100', height: '6vh' }}>
+    <div style={{ position: 'sticky', top: '0vh', zIndex: '100', height: '6vh' }}>
       <Row style={headMenuStyle}>
         <Col xs={{ span: 0 }} md={{ span: 6 }} lg={{ span: 4 }}></Col>
         <Col xs={{ span: 24, offset: 0 }} md={{ span: 17, offset: 1 }} lg={{ span: 12, offset: 1 }}>

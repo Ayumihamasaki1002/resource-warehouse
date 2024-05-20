@@ -1,6 +1,6 @@
-@tailwind base;
+/* @tailwind base; */
 @tailwind components;
-@tailwind utilities;
+/* @tailwind utilities; */
 
 
 
@@ -34,8 +34,8 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-@layer utilities {
+/* @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-}
+} */

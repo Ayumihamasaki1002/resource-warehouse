@@ -1,12 +1,19 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import MainPage from './MainPage';
 import ModifyPage from './ModifyPage';
 import WareHouse from './WareHouse';
 
+import useWarehouseStore from '@/store/warehouse';
+
 export default function RanderPage() {
-  const [model] = useState<number>(1);
+  const { warehouseInfo } = useWarehouseStore();
+  const [model, setModel] = useState<number>(1);
+  useEffect(() => {
+    if (warehouseInfo.flag !== undefined) setModel(warehouseInfo.flag);
+    else setModel(1);
+  }, [warehouseInfo.flag]);
   const centerStyles: React.CSSProperties = {
     width: '100%',
     height: '96%',
@@ -14,9 +21,10 @@ export default function RanderPage() {
     justifyContent: 'left',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04)',
     borderRadius: '2px',
-    padding: '1%',
-    marginTop: '2%',
+    padding: '2%',
+    marginTop: '1%',
     flexDirection: 'column',
+    lineHeight: '3em',
   };
 
   return model === 1 ? (

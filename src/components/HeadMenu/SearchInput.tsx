@@ -66,7 +66,7 @@ export default function SearchInput() {
     setShow(false);
   };
   return show && historyArray[0] !== 'default' ? (
-    <div style={{ width: '70%', marginLeft: '15%', display: 'Flex', flexDirection: 'column' }}>
+    <div style={{ width: '70%', marginLeft: '15%', display: 'Flex', flexDirection: 'column', marginTop: '1vh' }}>
       <Search
         style={{ width: '70%' }}
         placeholder="搜索~"
@@ -85,7 +85,7 @@ export default function SearchInput() {
       />
     </div>
   ) : (
-    <div style={{ width: '70%', marginLeft: '15%', display: 'Flex', flexDirection: 'column' }}>
+    <div style={{ width: '70%', marginLeft: '15%', display: 'Flex', flexDirection: 'column', marginTop: '1vh' }}>
       <Search
         style={{ width: '70%' }}
         placeholder="搜索~"

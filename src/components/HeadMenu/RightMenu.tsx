@@ -5,7 +5,7 @@ import { Space } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import Button from '@/components/Button/Button';
+import MyButton from '@/components/Button/MyButton';
 
 import ImageLoading from '../ImageLoading';
 
@@ -33,15 +33,15 @@ export default function RightMenu() {
   };
   return (
     <>
-      <Space>
+      <Space style={{ marginTop: '1vh' }}>
         <Link href={'/warehousePage'}>
-          <Button text={'文档'} />
+          <MyButton text={'文档'} />
         </Link>
         <Link href={'/warehousePage'}>
-          <Button text={'仓库'} />
+          <MyButton text={'仓库'} />
         </Link>
-        <Button text={'社区'} />
-        <Button text={'笔记'} />
+        <MyButton text={'社区'} />
+        <MyButton text={'笔记'} />
         <div onClick={handleClick}>
           <ImageLoading size="large" src={imgUrl} />
         </div>

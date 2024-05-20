@@ -5,12 +5,15 @@ import { FolderOutlined } from '@ant-design/icons';
 import { Menu, Skeleton } from 'antd';
 
 import { getHouses } from '@/api/warehouse';
+import useWarehouseStore from '@/store/warehouse';
 
 import type { GetProp, MenuProps } from 'antd';
 
 type MenuItem = GetProp<MenuProps, 'items'>[number];
 
 export default function LeftMenu() {
+  // 使用zustand更改渲染的页面
+  const { updateWarehouseInfo } = useWarehouseStore();
   // 获取用户名称
   const [userName, setUserName] = useState<string>('');
   // 渲染仓库菜单
@@ -29,25 +32,31 @@ export default function LeftMenu() {
     } as MenuItem;
   }
   useEffect(() => {
-    getHouses('afa89a8f-79bb-410d-8980-3ff6e4bb1ab7')
-      .then((res) => res.json())
-      .then((data) => {
-        const newItems: MenuItem[] = []; // 创建一个新的数组来存储新的items
-        let newFiles: MenuItem[] = [];
-        data.warehouses.forEach((warehouse: { housename: string; id: string; files: any }) => {
-          warehouse.files.forEach((file: { name: string; id: string }) => {
-            newFiles.push(getItem(file?.name, file?.id));
-          });
-          newItems.push(getItem(warehouse.housename, warehouse.id, <FolderOutlined />, newFiles));
-          newFiles = []; // 清空新的files数组
+    if (localStorage.getItem('id'))
+      getHouses(localStorage.getItem('id') as string)
+        .then((res) => res.json())
+        .then((data) => {
+          const newItems: MenuItem[] = []; // 创建一个新的数组来存储新的items
+          let newFiles: MenuItem[] = [];
+          data.warehouses.forEach((warehouse: { housename: string; id: string; files: any }) => {
+            warehouse.files.forEach((file: { name: string; id: string }) => {
+              newFiles.push(getItem(file?.name, file?.id));
+            });
+            newItems.push(getItem(warehouse.housename, warehouse.id, <FolderOutlined />, newFiles));
+            newFiles = []; // 清空新的files数组
 
-          setItems(newItems);
+            setItems(newItems);
+          });
         });
-      });
 
     // 获取用户名称
     if (localStorage.getItem('username')) setUserName(localStorage.getItem('username') as string);
   }, []);
+
+  // 菜单点击事件
+  const handleClick = (e: any) => {
+    updateWarehouseInfo({ warehouseId: e.keyPath[1], fileId: e.key, flag: 3 });
+  };
 
   const leftMenuStyle: React.CSSProperties = {
     width: '95%',
@@ -55,7 +64,7 @@ export default function LeftMenu() {
   };
 
   const SkeletonStyle: React.CSSProperties = {
-    marginTop: '5vh',
+    marginTop: '2vh',
     width: '80%',
     marginLeft: '10%',
   };
@@ -70,7 +79,7 @@ export default function LeftMenu() {
             fontSize: '25px',
             fontWeight: 'bold',
             marginLeft: '6%',
-            marginTop: '6%',
+            marginTop: '2%',
             color: '#388BFF',
           }}
         >
@@ -82,6 +91,9 @@ export default function LeftMenu() {
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
           items={items}
+          onClick={(e) => {
+            handleClick(e);
+          }}
         />
       </Skeleton>
     </>

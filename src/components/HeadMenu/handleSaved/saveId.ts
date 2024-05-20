@@ -18,6 +18,6 @@ export const getId = async () => {
       .then((data) => {
         localStorage.setItem('id', data.id);
         localStorage.setItem('avatar', data.avatar);
-        localStorage.setItem('username', data.username);
+        localStorage.setItem('username', data.nickname);
       });
 };
