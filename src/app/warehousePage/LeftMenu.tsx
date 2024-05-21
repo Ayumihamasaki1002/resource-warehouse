@@ -62,13 +62,10 @@ export default function LeftMenu() {
 
     updateWarehouseInfo({ warehouseId: e.keyPath[1], fileId: e.key, flag: 3, fileName: 'default' });
   };
-  // 收起菜单
-  const [openKeys, setOpenKeys] = useState([]);
   // 跳转到仓库设置页面
   const toWarehouseSetting = () => {
     updateWarehouseInfoSingle(1);
     setSelectedKeys([]);
-    setOpenKeys([]);
   };
 
   const leftMenuStyle: React.CSSProperties = {
@@ -112,7 +109,6 @@ export default function LeftMenu() {
           defaultOpenKeys={['sub1']}
           items={items}
           selectedKeys={selectedKeys}
-          openKeys={openKeys}
           onClick={(e) => {
             handleClick(e);
           }}
