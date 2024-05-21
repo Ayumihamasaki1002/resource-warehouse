@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { FolderOutlined, EditFilled } from '@ant-design/icons';
 import { Menu, Skeleton, Tooltip } from 'antd';
 
+import InputOrDiv from '@/components/InputOrDiv';
+
 import { getHouses } from '@/api/warehouse';
 import useWarehouseStore from '@/store/warehouse';
 
@@ -20,6 +22,8 @@ export default function LeftMenu() {
   const [items, setItems] = useState<MenuItem[]>([]);
   // 菜单是否可选
   const [selectedKeys, setSelectedKeys] = useState<string[]>(['facePage']);
+  // 菜单栏更改锁
+  // const [lock, setLock] = useState<boolean>(false);
   function getItem(
     label: React.ReactNode,
     key?: React.Key | null,
@@ -48,7 +52,7 @@ export default function LeftMenu() {
             newItems.push(getItem(warehouse.housename, warehouse.id, <FolderOutlined />, newFiles));
             newFiles = []; // 清空新的files数组
           });
-          newItems.unshift(getItem('首页', 'facePage'));
+          newItems.unshift(getItem(<InputOrDiv textName="首页" title="点击修改" width="50%"></InputOrDiv>, 'facePage'));
           setItems(newItems);
         });
 

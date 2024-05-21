@@ -1,9 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-
-import MainPage from './MainPage';
-import ModifyPage from './ModifyPage';
-import WareHouse from './WareHouse';
+const MainPage = React.lazy(() => import('./MainPage'));
+const ModifyPage = React.lazy(() => import('./ModifyPage'));
+const WareHouse = React.lazy(() => import('./WareHouse'));
 
 import useWarehouseStore from '@/store/warehouse';
 

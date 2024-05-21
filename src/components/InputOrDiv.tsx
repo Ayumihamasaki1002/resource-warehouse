@@ -10,7 +10,7 @@ type Props = {
   color?: string;
   textName: string;
   fontWeight?: string;
-  returnData?: () => void;
+  lock?: boolean;
 };
 
 export default function InputOrDiv({
@@ -21,22 +21,23 @@ export default function InputOrDiv({
   color = 'blue',
   textName,
   fontWeight = 'normal',
-  returnData,
+  lock = false,
 }: Props) {
   const inputRef = useRef<InputRef>(null);
   const [modify, setModify] = useState<boolean>(false);
   const [name, setName] = useState<string>(textName);
   const modifyFileName = async () => {
-    await setModify(true); // 这里必须等setModify执行完毕再focus，否则会报错
-    // 原因：setModify不是true的话input这个组件没有渲染出来，ref拿不到
-    inputRef.current!.focus({
-      cursor: 'end',
-    });
+    if (!lock) {
+      await setModify(true); // 这里必须等setModify执行完毕再focus，否则会报错
+      // 原因：setModify不是true的话input这个组件没有渲染出来，ref拿不到
+      inputRef.current!.focus({
+        cursor: 'end',
+      });
+    }
   };
   // 获取更改后的参数
   const onBlur = () => {
-    setModify(false);
-    returnData;
+    if (!lock) setModify(false);
   };
   const titleStyles: React.CSSProperties = {
     color: fontColor,
