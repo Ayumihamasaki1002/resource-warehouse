@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 
 import { AutoComplete, Button, Form, Input, Select } from 'antd';
+import { useRouter } from 'next/navigation';
 
 import { updateUserInfo } from '@/api/user';
 
@@ -32,6 +33,7 @@ const tailFormItemLayout = {
 };
 
 export default function UserForm() {
+  const router = useRouter();
   const [form] = Form.useForm();
   // 提交表单
   const onFinish = (value: any) => {
@@ -71,6 +73,9 @@ export default function UserForm() {
     } else {
       setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
     }
+  };
+  const handleSave = () => {
+    router.push('/mainPage');
   };
 
   const websiteOptions = autoCompleteResult.map((website) => ({
@@ -149,7 +154,7 @@ export default function UserForm() {
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit" style={{ marginTop: '30%', width: '100%' }}>
+        <Button type="primary" htmlType="submit" style={{ marginTop: '30%', width: '100%' }} onClick={handleSave}>
           保存
         </Button>
       </Form.Item>

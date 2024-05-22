@@ -30,17 +30,24 @@ export default function ImageLoading({ src, size, url }: ImageSrcProps) {
     };
   }, [src]); // 依赖src，当src变化时重新加载图片
 
-  // 处理图片可能存在的跳转(类型有问题待修改 -unfix-)
-  const handlePush = (url?: string): any => {
-    if (!url) return;
-    router.push(url);
+  // 处理图片可能存在的跳转(-unfix-)
+  const handlePush = (url?: string) => {
+    if (url) router.push(url);
   };
   return (
     <div>
       {isLoading ? (
         <Skeleton.Avatar active size={size} />
       ) : (
-        <Avatar size={size} src={src} onClick={url ? (e) => handlePush(url)(e) : undefined} />
+        <Avatar
+          size={size}
+          src={src}
+          onClick={() => {
+            if (url) {
+              handlePush(url);
+            }
+          }}
+        />
       )}
     </div>
   );
