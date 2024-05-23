@@ -47,9 +47,18 @@ export default function LeftMenu() {
           let newFiles: MenuItem[] = [];
           data.warehouses.forEach((warehouse: { housename: string; id: string; files: any }) => {
             warehouse.files.forEach((file: { name: string; id: string }) => {
-              newFiles.push(getItem(file?.name, file?.id));
+              newFiles.push(
+                getItem(<InputOrDiv textName={file?.name} title="点击修改" width="50%"></InputOrDiv>, file?.id),
+              );
             });
-            newItems.push(getItem(warehouse.housename, warehouse.id, <FolderOutlined />, newFiles));
+            newItems.push(
+              getItem(
+                <InputOrDiv textName={warehouse.housename} title="点击修改" width="50%"></InputOrDiv>,
+                warehouse.id,
+                <FolderOutlined />,
+                newFiles,
+              ),
+            );
             newFiles = []; // 清空新的files数组
           });
           newItems.unshift(getItem(<InputOrDiv textName="首页" title="点击修改" width="50%"></InputOrDiv>, 'facePage'));

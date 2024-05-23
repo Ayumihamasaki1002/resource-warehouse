@@ -10,7 +10,6 @@ type Props = {
   color?: string;
   textName: string;
   fontWeight?: string;
-  lock?: boolean;
 };
 
 export default function InputOrDiv({
@@ -21,19 +20,20 @@ export default function InputOrDiv({
   color = 'blue',
   textName,
   fontWeight = 'normal',
-  lock = false,
 }: Props) {
   const inputRef = useRef<InputRef>(null);
+  const [lock, setLock] = useState<boolean>(false);
   const [modify, setModify] = useState<boolean>(false);
   const [name, setName] = useState<string>(textName);
   const modifyFileName = async () => {
-    if (!lock) {
+    if (lock) {
       await setModify(true); // 这里必须等setModify执行完毕再focus，否则会报错
       // 原因：setModify不是true的话input这个组件没有渲染出来，ref拿不到
       inputRef.current!.focus({
         cursor: 'end',
       });
-    }
+      setLock(false);
+    } else setLock(true);
   };
   // 获取更改后的参数
   const onBlur = () => {
