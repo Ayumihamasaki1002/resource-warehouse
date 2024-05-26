@@ -48,12 +48,27 @@ export default function LeftMenu() {
           data.warehouses.forEach((warehouse: { housename: string; id: string; files: any }) => {
             warehouse.files.forEach((file: { name: string; id: string }) => {
               newFiles.push(
-                getItem(<InputOrDiv textName={file?.name} title="点击修改" width="50%"></InputOrDiv>, file?.id),
+                getItem(
+                  <InputOrDiv
+                    textName={file?.name}
+                    updateInfo={file?.id}
+                    updateMode={'file'}
+                    title="点击修改"
+                    width="50%"
+                  ></InputOrDiv>,
+                  file?.id,
+                ),
               );
             });
             newItems.push(
               getItem(
-                <InputOrDiv textName={warehouse.housename} title="点击修改" width="50%"></InputOrDiv>,
+                <InputOrDiv
+                  textName={warehouse.housename}
+                  title="点击修改"
+                  width="50%"
+                  updateInfo={warehouse.id}
+                  updateMode="warehouse"
+                ></InputOrDiv>,
                 warehouse.id,
                 <FolderOutlined />,
                 newFiles,

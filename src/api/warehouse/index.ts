@@ -17,3 +17,17 @@ export const getHouseLists = async (ownerId: string) => {
     },
   });
 };
+
+// 更新仓库名称
+export const updateWarehouse = async (id: string, housename: string) => {
+  return await fetch(`http://localhost:3000/warehouse`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id,
+      housename,
+    }),
+  });
+};

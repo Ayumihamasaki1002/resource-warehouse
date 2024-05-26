@@ -24,7 +24,7 @@ interface WarehouseState {
 const useWarehouseStore = create<WarehouseState>((set) => ({
   warehouseInfo: {
     warehouseId: '',
-    fileId: '',
+    fileId: 'facePage',
     flag: 1,
     fileName: '',
   },

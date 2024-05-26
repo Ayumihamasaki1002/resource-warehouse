@@ -2,6 +2,9 @@ import React, { useRef, useState } from 'react';
 
 import { Input, InputRef, Tooltip } from 'antd';
 
+import { updateWarehouse } from '../api/warehouse';
+import { updateHouseDetail } from '../api/warehouse/housedetail';
+
 type Props = {
   width?: string;
   title: string;
@@ -10,6 +13,8 @@ type Props = {
   color?: string;
   textName: string;
   fontWeight?: string;
+  updateInfo?: string;
+  updateMode?: 'warehouse' | 'file';
 };
 
 export default function InputOrDiv({
@@ -20,6 +25,8 @@ export default function InputOrDiv({
   color = 'blue',
   textName,
   fontWeight = 'normal',
+  updateInfo,
+  updateMode,
 }: Props) {
   const inputRef = useRef<InputRef>(null);
   const [lock, setLock] = useState<boolean>(false);
@@ -38,6 +45,16 @@ export default function InputOrDiv({
   // 获取更改后的参数
   const onBlur = () => {
     if (!lock) setModify(false);
+    if (textName !== name) updateData(); // 名字改变时发送请求
+  };
+  // 跟新数据
+  const updateData = () => {
+    // 地址 新名字 id
+    if (updateInfo) {
+      // 暂时用于处理仓库名和文件名更新,可以改造为更通用的组件 (-fix-)
+      if (updateMode === 'warehouse') updateWarehouse(updateInfo, name);
+      else if (updateMode === 'file') updateHouseDetail(updateInfo, undefined, name);
+    }
   };
   const titleStyles: React.CSSProperties = {
     color: fontColor,

@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-const MainPage = React.lazy(() => import('./MainPage'));
 const ModifyPage = React.lazy(() => import('./ModifyPage'));
 const WareHouse = React.lazy(() => import('./WareHouse'));
 
@@ -26,11 +25,7 @@ export default function RanderPage() {
     lineHeight: '3em',
   };
 
-  return model === 1 ? (
-    <div style={centerStyles}>
-      <MainPage />
-    </div>
-  ) : model === 2 ? (
+  return model === 2 ? (
     <div style={centerStyles}>
       <ModifyPage />
     </div>
