@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import Editor from 'react-markdown-editor-lite';
 
-import { Button, Input, InputRef, message, Tooltip } from 'antd';
+import { Button, message } from 'antd';
 
 import { updateUserInfo } from '@/api/user';
 import { getSingleHouseDetail, updateHouseDetail } from '@/api/warehouse/housedetail';
@@ -27,7 +27,6 @@ export default function ModifyPage() {
   const mdEditor = useRef(null);
   const [name, setName] = useState<string>('');
   const [value, setValue] = useState<string>('');
-  const [modify, setModify] = useState<boolean>(false);
   const [messageApi, contextHolder] = message.useMessage();
   useEffect(() => {
     if (warehouseInfo.fileId === 'facePage') setValue(facePage);
@@ -50,7 +49,6 @@ export default function ModifyPage() {
     if (warehouseInfo.fileId === 'facePage') await updateUserInfo({ warehouseFacePage: value });
     else await updateHouseDetail(warehouseInfo.fileId, value, name);
     messageApi.info('保存成功！');
-    setModify(false);
     // 保存成功后，更新仓库信息
     updateWarehouseInfo({
       warehouseId: warehouseInfo.warehouseId,
@@ -59,34 +57,10 @@ export default function ModifyPage() {
       fileName: name,
     });
   };
-  const inputRef = useRef<InputRef>(null);
-  const modifyFileName = async () => {
-    await setModify(true); // 这里必须等setModify执行完毕再focus，否则会报错
-    // 原因：setModify不是true的话input这个组件没有渲染出来，ref拿不到
-    inputRef.current!.focus({
-      cursor: 'end',
-    });
-  };
-  const onBlur = () => {
-    setModify(false);
-  };
+
   // 渲染input或者name
   const renderInputOrName = () => {
-    return modify ? (
-      <Input
-        style={{ width: '15%' }}
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        onBlur={onBlur}
-        ref={inputRef}
-      />
-    ) : (
-      <h1 style={titleStyles} onClick={modifyFileName}>
-        <Tooltip title="单击修改文件名" color="blue">
-          {name}
-        </Tooltip>
-      </h1>
-    );
+    return <h1 style={titleStyles}>{name}</h1>;
   };
 
   return (

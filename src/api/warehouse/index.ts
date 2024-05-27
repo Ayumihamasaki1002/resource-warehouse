@@ -31,3 +31,12 @@ export const updateWarehouse = async (id: string, housename: string) => {
     }),
   });
 };
+// 删除仓库
+export const deleteWarehouse = async (id: string) => {
+  return await fetch(`http://localhost:3000/warehouse/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};

@@ -18,3 +18,13 @@ export const updateHouseDetail = async (fileId: string, fileContent?: string, fi
     }),
   });
 };
+
+// 删除文件
+export const deleteHousedetail = async (id: string) => {
+  return await fetch(`http://localhost:3000/housedetail/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+};
