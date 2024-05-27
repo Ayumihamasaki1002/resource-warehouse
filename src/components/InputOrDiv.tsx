@@ -14,7 +14,7 @@ type Props = {
   textName: string;
   fontWeight?: string;
   updateInfo?: string;
-  updateMode?: 'warehouse' | 'file';
+  updateMode?: 'warehouse' | 'file' | string;
 };
 
 export default function InputOrDiv({

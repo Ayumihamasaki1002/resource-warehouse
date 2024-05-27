@@ -1,12 +1,12 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
-import { FolderOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { FolderOutlined, CloseCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Menu, Skeleton, message, Popconfirm } from 'antd';
 
 import InputOrDiv from '@/components/InputOrDiv';
 
-import { getHouses } from '@/api/warehouse';
+import { deleteWarehouse, getHouses } from '@/api/warehouse';
 import { deleteHousedetail } from '@/api/warehouse/housedetail';
 import useWarehouseStore from '@/store/warehouse';
 
@@ -49,17 +49,11 @@ export default function LeftMenu() {
           let newFiles: MenuItem[] = [];
           data.warehouses.forEach((warehouse: { housename: string; id: string; files: any }) => {
             warehouse.files.forEach((file: { name: string; id: string }) => {
-              newFiles.push(getItem(<Item {...file} />, file?.id));
+              newFiles.push(getItem(<Item {...file} itemType="file" />, file?.id));
             });
             newItems.push(
               getItem(
-                <InputOrDiv
-                  textName={warehouse.housename}
-                  title="点击修改"
-                  width="50%"
-                  updateInfo={warehouse.id}
-                  updateMode="warehouse"
-                ></InputOrDiv>,
+                <Item id={warehouse.id} name={warehouse.housename} itemType="warehouse" />,
                 warehouse.id,
                 <FolderOutlined />,
                 newFiles,
@@ -88,7 +82,7 @@ export default function LeftMenu() {
    1. 如果点击其他地方应该把弹窗关闭，但是这里用了open控制弹窗是否打开，当点击其他地方时，不知道如何控制open
    2. 如果不绑open，弹窗关闭时，无法控制删除按钮的显示与隐藏
   */
-  const Item = (file: { name: string; id: string }) => {
+  const Item = (Parameters: { name: string; id: string; itemType: string }) => {
     // 控制删除按钮是否显示
     const [isFade, setIsFade] = useState(true);
     // 控制移出事件是否触发
@@ -99,13 +93,18 @@ export default function LeftMenu() {
     const handleonMouseEnter = () => {
       setIsFade(false);
     };
+
+    // 控制参数
+    const Params = new Map<string, { name: string; type: string; request: (id: string) => void }>([]);
+    Params.set('file', { name: '文件', type: 'file', request: deleteHousedetail });
+    Params.set('warehouse', { name: '仓库', type: 'warehouse', request: deleteWarehouse });
     // 鼠标移出隐藏删除按钮
     const handleonMouseLeave = () => {
       if (isLeave) setIsFade(true);
     };
     // 确认删除
     const confirm: PopconfirmProps['onConfirm'] = async () => {
-      await deleteHousedetail(file?.id); // 删除文件
+      await Params.get(Parameters.itemType)?.request(Parameters?.id); // 删除文件
       setIsLeave(true);
       setOpen(false);
       message.success('删除成功');
@@ -129,26 +128,29 @@ export default function LeftMenu() {
         onMouseLeave={handleonMouseLeave}
       >
         <InputOrDiv
-          textName={file?.name}
-          updateInfo={file?.id}
-          updateMode={'file'}
+          textName={Parameters.name}
+          updateInfo={Parameters.id}
+          updateMode={Params.get(Parameters.itemType)?.type}
           title="点击修改"
           width="50%"
         ></InputOrDiv>
         {isFade ? (
-          <div></div>
+          <></>
         ) : (
-          <Popconfirm
-            title="删除文件"
-            description="确认要删除文件吗?"
-            onConfirm={confirm}
-            onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
-            open={open}
-          >
-            <CloseCircleOutlined onClick={() => deleteFile()} />
-          </Popconfirm>
+          <div>
+            {Parameters.itemType === 'warehouse' ? <PlusCircleOutlined /> : <></>}
+            <Popconfirm
+              title={'删除' + Params.get(Parameters.itemType)?.name}
+              description={'确认删除' + Params.get(Parameters.itemType)?.name + '吗?'}
+              onConfirm={confirm}
+              onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+              open={open}
+            >
+              <CloseCircleOutlined onClick={() => deleteFile()} />
+            </Popconfirm>
+          </div>
         )}
       </div>
     );
