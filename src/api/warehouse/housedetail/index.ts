@@ -1,3 +1,4 @@
+// 获取单个文件
 export const getSingleHouseDetail = async (id: string, fileId: string) => {
   return await fetch(`http://localhost:3000/housedetail/${id}/${fileId}`, {
     method: 'GET',
@@ -6,6 +7,8 @@ export const getSingleHouseDetail = async (id: string, fileId: string) => {
     },
   });
 };
+
+// 修改文件
 export const updateHouseDetail = async (fileId: string, fileContent?: string, fileName?: string) => {
   return await fetch(`http://localhost:3000/housedetail/${fileId}`, {
     method: 'PATCH',
@@ -26,5 +29,19 @@ export const deleteHousedetail = async (id: string) => {
     headers: {
       'Content-Type': 'application/json',
     },
+  });
+};
+
+// 创建文件
+export const addHouseDetail = async (houseId: string, fileName: string) => {
+  return await fetch(`http://localhost:3000/housedetail/add`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      houseId,
+      fileName,
+    }),
   });
 };
