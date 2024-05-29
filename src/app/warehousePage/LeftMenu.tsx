@@ -64,99 +64,107 @@ export default function LeftMenu() {
           setItems(newItems);
         });
 
-    // 封装item
-    /*
+    // 获取用户名称
+    if (localStorage.getItem('username')) setUserName(localStorage.getItem('username') as string);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 封装item
+  /*
    -fix- 这里有个小问题： 24.5.27
    1. 如果点击其他地方应该把弹窗关闭，但是这里用了open控制弹窗是否打开，当点击其他地方时，不知道如何控制open
    2. 如果不绑open，弹窗关闭时，无法控制删除按钮的显示与隐藏
   */
-    const Item = (Parameters: { name: string; id: string; itemType: string }) => {
-      // 控制删除按钮是否显示
-      const [isFade, setIsFade] = useState(true);
-      // 控制移出事件是否触发
-      const [isLeave, setIsLeave] = useState(true);
-      // 控制弹窗是否打开
-      const [open, setOpen] = useState(false);
-      // 鼠标移入显示删除按钮
-      const handleonMouseEnter = () => {
-        setIsFade(false);
-      };
-
-      // 控制参数
-      const Params = new Map<string, { name: string; type: string; request: (id: string) => void }>([]);
-      Params.set('file', { name: '文件', type: 'file', request: deleteHousedetail });
-      Params.set('warehouse', { name: '仓库', type: 'warehouse', request: deleteWarehouse });
-      // 鼠标移出隐藏删除按钮
-      const handleonMouseLeave = () => {
-        if (isLeave) setIsFade(true);
-      };
-      // 确认删除
-      const confirm: PopconfirmProps['onConfirm'] = async () => {
-        await Params.get(Parameters.itemType)?.request(Parameters?.id); // 删除文件
-        setIsLeave(true);
-        setOpen(false);
-        message.success('删除成功');
-      };
-      // 取消删除
-      const cancel: PopconfirmProps['onCancel'] = () => {
-        message.error('取消成功');
-        setIsLeave(true);
-        setOpen(false);
-      };
-      // 删除文件夹按钮
-      const deleteFile = () => {
-        setOpen(true);
-        setIsLeave(false);
-      };
-      // 添加文件夹按钮
-      const addFile = (houseId: string) => {
-        items.forEach((warehouse) => {
-          if (warehouse?.key === houseId) {
-          }
-        });
-      };
-      return (
-        <div
-          style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row' }}
-          onMouseEnter={handleonMouseEnter}
-          onMouseLeave={handleonMouseLeave}
-        >
-          <InputOrDiv
-            textName={Parameters.name}
-            updateInfo={Parameters.id}
-            updateMode={Params.get(Parameters.itemType)?.type}
-            title="点击修改"
-            width="50%"
-          ></InputOrDiv>
-          {isFade ? (
-            <></>
-          ) : (
-            <div>
-              {Parameters.itemType === 'warehouse' ? (
-                <PlusCircleOutlined onClick={() => addFile(Parameters.id)} />
-              ) : (
-                <></>
-              )}
-              <Popconfirm
-                title={'删除' + Params.get(Parameters.itemType)?.name}
-                description={'确认删除' + Params.get(Parameters.itemType)?.name + '吗?'}
-                onConfirm={confirm}
-                onCancel={cancel}
-                okText="Yes"
-                cancelText="No"
-                open={open}
-              >
-                <CloseCircleOutlined onClick={() => deleteFile()} />
-              </Popconfirm>
-            </div>
-          )}
-        </div>
-      );
+  const Item = (Parameters: { name: string; id: string; itemType: string }) => {
+    // 控制删除按钮是否显示
+    const [isFade, setIsFade] = useState(true);
+    // 控制移出事件是否触发
+    const [isLeave, setIsLeave] = useState(true);
+    // 控制弹窗是否打开
+    const [open, setOpen] = useState(false);
+    // 鼠标移入显示删除按钮
+    const handleonMouseEnter = () => {
+      setIsFade(false);
     };
 
-    // 获取用户名称
-    if (localStorage.getItem('username')) setUserName(localStorage.getItem('username') as string);
-  }, [items, updateFacePage]);
+    // 控制参数
+    const Params = new Map<string, { name: string; type: string; request: (id: string) => void }>([]);
+    Params.set('file', { name: '文件', type: 'file', request: deleteHousedetail });
+    Params.set('warehouse', { name: '仓库', type: 'warehouse', request: deleteWarehouse });
+    // 鼠标移出隐藏删除按钮
+    const handleonMouseLeave = () => {
+      if (isLeave) setIsFade(true);
+    };
+    // 确认删除
+    const confirm: PopconfirmProps['onConfirm'] = async () => {
+      await Params.get(Parameters.itemType)?.request(Parameters?.id); // 删除文件
+      setIsLeave(true);
+      setOpen(false);
+      message.success('删除成功');
+    };
+    // 取消删除
+    const cancel: PopconfirmProps['onCancel'] = () => {
+      message.error('取消成功');
+      setIsLeave(true);
+      setOpen(false);
+    };
+    // 删除文件夹按钮
+    const deleteFile = () => {
+      setOpen(true);
+      setIsLeave(false);
+    };
+    // 添加文件夹按钮
+    const addFile = async (houseId: string) => {
+      const updateItems = [...items];
+      for (const warehouse of updateItems) {
+        if (warehouse?.key === houseId) {
+          (warehouse as any).children?.push(
+            getItem(<InputOrDiv textName="" title="点击修改" width="50%" updateMode="newFile"></InputOrDiv>, 'file'),
+          ); // 这里不让我公共访问只能断言解决
+          break;
+        }
+        setItems(updateItems);
+      }
+    };
+    return (
+      <div
+        style={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row' }}
+        onMouseEnter={handleonMouseEnter}
+        onMouseLeave={handleonMouseLeave}
+      >
+        <InputOrDiv
+          textName={Parameters.name}
+          updateInfo={Parameters.id}
+          updateMode={Params.get(Parameters.itemType)?.type}
+          title="点击修改"
+          width="50%"
+        ></InputOrDiv>
+        {isFade ? (
+          <></>
+        ) : (
+          <div>
+            {Parameters.itemType === 'warehouse' ? (
+              <PlusCircleOutlined onClick={() => addFile(Parameters.id)} />
+            ) : (
+              <></>
+            )}
+            <Popconfirm
+              title={'删除' + Params.get(Parameters.itemType)?.name}
+              description={'确认删除' + Params.get(Parameters.itemType)?.name + '吗?'}
+              onConfirm={confirm}
+              onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+              open={open}
+            >
+              <CloseCircleOutlined onClick={() => deleteFile()} />
+            </Popconfirm>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   // 菜单点击事件
   const handleClick = (e: any) => {

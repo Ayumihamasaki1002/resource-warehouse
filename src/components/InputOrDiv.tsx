@@ -14,7 +14,7 @@ type Props = {
   textName: string;
   fontWeight?: string;
   updateInfo?: string;
-  updateMode?: 'warehouse' | 'file' | string;
+  updateMode?: 'warehouse' | 'file' | 'newFile' | string;
 };
 
 export default function InputOrDiv({
@@ -54,6 +54,10 @@ export default function InputOrDiv({
       // 暂时用于处理仓库名和文件名更新,可以改造为更通用的组件 (-fix-)
       if (updateMode === 'warehouse') updateWarehouse(updateInfo, name);
       else if (updateMode === 'file') updateHouseDetail(updateInfo, undefined, name);
+      else if (updateMode === 'newFile') {
+        setLock(true);
+        modifyFileName();
+      }
     }
   };
   const titleStyles: React.CSSProperties = {
