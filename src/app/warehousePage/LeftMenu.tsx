@@ -23,7 +23,6 @@ export default function LeftMenu() {
   // 菜单是否可选
   const [selectedKeys, setSelectedKeys] = useState<string[]>(['facePage']);
   // 控制菜单页面重新渲染
-  const [flag, setFlag] = useState(false);
 
   function getItem(
     label: React.ReactNode,
@@ -44,7 +43,7 @@ export default function LeftMenu() {
    1. 如果点击其他地方应该把弹窗关闭，但是这里用了open控制弹窗是否打开，当点击其他地方时，不知道如何控制open
    2. 如果不绑open，弹窗关闭时，无法控制删除按钮的显示与隐藏
   */
-  const Item = (Parameters: { name: string; id: string; itemType: string; callBackFun: (flag: boolean) => void }) => {
+  const Item = (Parameters: { name: string; id: string; itemType: string }) => {
     // 控制删除按钮是否显示
     const [isFade, setIsFade] = useState(true);
     // 控制移出事件是否触发
@@ -136,11 +135,6 @@ export default function LeftMenu() {
   };
 
   useEffect(() => {
-    type callBackFun = (flag: boolean) => void;
-    const callBackFun = (flag: boolean) => {
-      setFlag(flag);
-    };
-
     if (localStorage.getItem('id'))
       getHouses(localStorage.getItem('id') as string) // 请求仓库列表
         .then((res) => res.json())
@@ -150,11 +144,11 @@ export default function LeftMenu() {
           let newFiles: MenuItem[] = [];
           data.warehouses.forEach((warehouse: { housename: string; id: string; files: any }) => {
             warehouse.files.forEach((file: { name: string; id: string }) => {
-              newFiles.push(getItem(<Item {...file} callBackFun={callBackFun} itemType="file" />, file?.id));
+              newFiles.push(getItem(<Item {...file} itemType="file" />, file?.id));
             });
             newItems.push(
               getItem(
-                <Item id={warehouse.id} name={warehouse.housename} itemType="warehouse" callBackFun={callBackFun} />,
+                <Item id={warehouse.id} name={warehouse.housename} itemType="warehouse" />,
                 warehouse.id,
                 <FolderOutlined />,
                 newFiles,
@@ -172,7 +166,7 @@ export default function LeftMenu() {
     // 用于传参的回调函数
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flag]);
+  }, []);
 
   useEffect(() => {});
 
