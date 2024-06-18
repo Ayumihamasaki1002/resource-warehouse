@@ -11,6 +11,7 @@ import { deleteHousedetail } from '@/api/warehouse/housedetail';
 import useWarehouseStore from '@/store/warehouse';
 
 import type { GetProp, MenuProps, PopconfirmProps } from 'antd';
+
 type MenuItem = GetProp<MenuProps, 'items'>[number];
 
 export default function LeftMenu() {
@@ -88,7 +89,7 @@ export default function LeftMenu() {
       for (const warehouse of updateItems) {
         if (warehouse?.key === houseId) {
           (warehouse as any).children?.push(
-            getItem(<InputOrDiv textName="" title="点击修改" width="50%" updateMode="newFile"></InputOrDiv>, 'file'),
+            getItem(<Item name="双击修改" id="newFlies" itemType="facePage"></Item>, 'file'),
           ); // 这里不让我公共访问只能断言解决
           break;
         }
@@ -166,7 +167,7 @@ export default function LeftMenu() {
     // 用于传参的回调函数
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [items.length]);
 
   useEffect(() => {});
 
