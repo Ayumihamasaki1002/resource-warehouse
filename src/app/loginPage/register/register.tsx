@@ -15,14 +15,27 @@ export default function Register() {
   };
   const [messageApi, contextHolder] = message.useMessage();
   // 确认注册
-  const onFinish = (value: value) => {
+  const onFinish = async (value: value) => {
     // 发送请求
+    const data = await userRegister({ username: value.username, password: value.password });
 
-    userRegister({ username: value.username, password: value.password });
-    messageApi.open({
-      type: 'success',
-      content: '注册成功',
-    });
+    if (data.statusCode === 200) {
+      messageApi.open({
+        type: 'success',
+        content: '注册成功',
+      });
+      window.location.href = '/loginPage/login'; // 注册成功后跳转到登录页面
+    } else if (data.statusCode === 400) {
+      messageApi.open({
+        type: 'error',
+        content: data.message,
+      });
+    } else {
+      messageApi.open({
+        type: 'error',
+        content: '服务器错误，请联系管理员！',
+      });
+    }
   };
 
   return (
@@ -35,7 +48,7 @@ export default function Register() {
         onFinish={onFinish}
         id={styles.registerForm}
       >
-        <div style={{ fontSize: '30px' }}>注册</div>
+        <div style={{ fontSize: '30px', color: '#7799CC', fontFamily: 'cuisive' }}>register</div>
         <Form.Item
           name="username"
           rules={[{ required: true, message: '请输入你的用户名!' }]}

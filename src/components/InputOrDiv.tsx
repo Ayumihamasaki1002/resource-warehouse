@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Input, InputRef, Tooltip } from 'antd';
 
@@ -12,6 +12,7 @@ type Props = {
   fontColor?: string;
   color?: string;
   textName: string;
+  isInput?: boolean;
   fontWeight?: string;
   updateInfo?: string;
   updateMode?: 'warehouse' | 'file' | 'newFile' | string;
@@ -27,11 +28,15 @@ export default function InputOrDiv({
   fontWeight = 'normal',
   updateInfo,
   updateMode,
+  isInput,
 }: Props) {
   const inputRef = useRef<InputRef>(null);
   const [lock, setLock] = useState<boolean>(false);
   const [modify, setModify] = useState<boolean>(false);
   const [name, setName] = useState<string>(textName);
+  useEffect(() => {
+    if (isInput) setModify(isInput);
+  }, [isInput]);
   const modifyFileName = async () => {
     if (lock) {
       await setModify(true); // 这里必须等setModify执行完毕再focus，否则会报错

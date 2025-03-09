@@ -4,6 +4,8 @@ import React from 'react';
 
 import { Row, Col } from 'antd';
 
+import bgImg from '../index.module.scss';
+
 import styles from './index.module.scss';
 import Login from './login';
 export default function loginPage() {
@@ -11,7 +13,7 @@ export default function loginPage() {
 
   return (
     <>
-      <div id={styles.loginPage}>
+      <div id={bgImg.img}>
         <Row>
           <Col span={5} offset={0}></Col>
           <Col span={12} offset={7}>

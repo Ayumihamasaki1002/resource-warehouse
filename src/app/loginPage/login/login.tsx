@@ -12,12 +12,29 @@ export default function Login() {
   const [messageApi, contextHolder] = message.useMessage();
 
   const onFinish = async (values: { username: string; password: string }) => {
-    await userLogin(values);
-    messageApi.open({
-      type: 'success',
-      content: '登录成功',
-    });
-    window.location.href = '/mainPage';
+    const data = await userLogin(values);
+    // 登录成功
+    if (typeof data === 'object' && data && !data.statusCode) {
+      messageApi.open({
+        type: 'success',
+        content: '登录成功',
+      });
+      window.location.href = '/mainPage';
+    }
+    // 登录失败
+    else if (typeof data === 'object' && data?.statusCode === 400) {
+      messageApi.open({
+        type: 'error',
+        content: data.message,
+      });
+    }
+    // 服务器错误
+    else {
+      messageApi.open({
+        type: 'error',
+        content: '服务器错误，请联系管理员！',
+      });
+    }
   };
   return (
     <>
@@ -29,7 +46,7 @@ export default function Login() {
         onFinish={onFinish}
         id={styles.loginForm}
       >
-        <div style={{ fontSize: '30px' }}>登录</div>
+        <div style={{ fontSize: '30px', color: '#7799CC', fontFamily: '' }}>login</div>
         <Form.Item
           name="username"
           rules={[{ required: true, message: '请输入你的用户名!' }]}

@@ -5,7 +5,7 @@ interface type {
 }
 
 export async function userRegister(params: type) {
-  fetch('http://localhost:3000/user/register', {
+  return fetch('http://localhost:3000/user/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -17,8 +17,8 @@ export async function userRegister(params: type) {
     }),
   })
     .then((response) => response.json())
-    .then(() => {
-      window.location.href = '/loginPage/login'; // 注册成功后跳转到登录页面
+    .then((data) => {
+      return data;
     })
     .catch((error) => {
       console.error('Error:', error);

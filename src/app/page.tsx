@@ -2,11 +2,19 @@
 
 import React from 'react';
 
-import { Button } from 'antd';
+import { ConfigProvider, Button } from 'antd';
 
 const Home = () => (
   <div className="App">
-    <Button type="primary">Button</Button>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#7799CC',
+        },
+      }}
+    >
+      <Button type="primary">Primary Button</Button>
+    </ConfigProvider>
   </div>
 );
 

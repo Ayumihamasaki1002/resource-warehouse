@@ -44,7 +44,7 @@ export default function LeftMenu() {
    1. 如果点击其他地方应该把弹窗关闭，但是这里用了open控制弹窗是否打开，当点击其他地方时，不知道如何控制open
    2. 如果不绑open，弹窗关闭时，无法控制删除按钮的显示与隐藏
   */
-  const Item = (Parameters: { name: string; id: string; itemType: string }) => {
+  const Item = (Parameters: { name: string; id: string; itemType: string; isInput?: boolean }) => {
     // 控制删除按钮是否显示
     const [isFade, setIsFade] = useState(true);
     // 控制移出事件是否触发
@@ -55,7 +55,7 @@ export default function LeftMenu() {
     const handleonMouseEnter = () => {
       setIsFade(false);
     };
-
+    // 控制新增文件夹的状态
     // 控制参数
     const Params = new Map<string, { name: string; type: string; request: (id: string) => void }>([]);
     Params.set('file', { name: '文件', type: 'file', request: deleteHousedetail });
@@ -89,7 +89,7 @@ export default function LeftMenu() {
       for (const warehouse of updateItems) {
         if (warehouse?.key === houseId) {
           (warehouse as any).children?.push(
-            getItem(<Item name="双击修改" id="newFlies" itemType="facePage"></Item>, 'file'),
+            getItem(<Item name="请输入文件名" id="newFlies" itemType="facePage" isInput={true}></Item>, 'file'),
           ); // 这里不让我公共访问只能断言解决
           break;
         }
@@ -107,7 +107,8 @@ export default function LeftMenu() {
           updateInfo={Parameters.id}
           updateMode={Params.get(Parameters.itemType)?.type}
           title="点击修改"
-          width="50%"
+          width="55%"
+          isInput={Parameters.isInput}
         ></InputOrDiv>
         {isFade ? (
           <></>
@@ -168,8 +169,6 @@ export default function LeftMenu() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length]);
-
-  useEffect(() => {});
 
   // 菜单点击事件
   const handleClick = (e: any) => {
